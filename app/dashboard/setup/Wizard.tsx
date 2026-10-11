@@ -103,35 +103,54 @@ export default function SetupWizard({ profile }: { profile: SiteProfile }) {
       ) : null}
 
       {step === 1 ? (
-        <form
-          action={async (fd) => {
-            await profileAction(fd);
-            setStep(2);
-          }}
+        <div
           className="bg-card border-[3px] border-theme p-6 md:p-8 flex flex-col gap-5"
           style={{ boxShadow: "4px 4px 0px 0px var(--shadow-color)" }}
         >
-          <h2 className="font-bold text-theme">Add a logo and photo (optional)</h2>
-          <p className="text-theme-muted text-xs -mt-3">
-            You can skip these and come back any time.
-          </p>
+          <form
+            action={async (fd) => {
+              await profileAction(fd);
+              setStep(2);
+            }}
+            className="flex flex-col gap-5"
+          >
+            <h2 className="font-bold text-theme">Add a logo and photo (optional)</h2>
+            <p className="text-theme-muted text-xs -mt-3">
+              You can skip these and come back any time.
+            </p>
 
-          <input type="hidden" name="name" value={profile.name} />
-          <input type="hidden" name="handle" value={profile.handle} />
-          <input type="hidden" name="email" value={profile.email} />
-          <input type="hidden" name="role" value={profile.role} />
+            <input type="hidden" name="name" value={profile.name} />
+            <input type="hidden" name="handle" value={profile.handle} />
+            <input type="hidden" name="email" value={profile.email} />
+            <input type="hidden" name="role" value={profile.role} />
 
-          <ImageUpload name="logoUrl" label="Logo" currentUrl={profile.logoUrl ?? ""} />
-          <ImageUpload name="photoUrl" label="Photo" currentUrl={profile.photoUrl ?? ""} />
+            <div className="flex items-center gap-3">
+              <button type="submit" disabled={profilePending} className="brutal-btn bg-accent-highlight text-black disabled:opacity-60">
+                {profilePending ? "saving..." : "continue"}
+              </button>
+            </div>
+            <StatusText result={profileState} />
+          </form>
 
-          <div className="flex items-center gap-3">
-            <button type="submit" disabled={profilePending} className="brutal-btn bg-accent-highlight text-black disabled:opacity-60">
-              {profilePending ? "saving..." : "finish setup"}
-            </button>
-            <button type="button" onClick={() => setStep(2)} className="brutal-btn">skip for now</button>
+          {/* Outside the form on purpose — <form> cannot nest inside <form>. */}
+          <div className="border-t-[3px] border-theme/20 pt-6 flex flex-col gap-6">
+            <p className="text-xs text-theme-muted">
+              Images save as soon as you pick them.
+            </p>
+            <div className="flex flex-col gap-6 sm:flex-row">
+              <ImageUpload
+                field="logoUrl"
+                label="Logo"
+                currentUrl={profile.logoUrl}
+              />
+              <ImageUpload
+                field="photoUrl"
+                label="Photo"
+                currentUrl={profile.photoUrl}
+              />
+            </div>
           </div>
-          <StatusText result={profileState} />
-        </form>
+        </div>
       ) : null}
 
       {step === 2 ? (

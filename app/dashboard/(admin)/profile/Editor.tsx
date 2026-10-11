@@ -67,21 +67,6 @@ export default function ProfileEditor({
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <ImageUpload
-              name="logoUrl"
-              label="Logo"
-              currentUrl={profile.logoUrl}
-              shape="square"
-            />
-            <ImageUpload
-              name="photoUrl"
-              label="Photo"
-              currentUrl={profile.photoUrl}
-              shape="square"
-            />
-          </div>
-
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <button
               type="submit"
@@ -93,6 +78,26 @@ export default function ProfileEditor({
             <StatusText result={profileState} />
           </div>
         </form>
+
+        {/* Outside the form on purpose — a <form> may not nest inside another.
+            Uploads persist immediately, so they need no hidden fields. */}
+        <div className="mt-7 border-t-[3px] border-theme/20 pt-6">
+          <p className="mb-4 text-xs text-theme-muted">
+            Images save as soon as you pick them.
+          </p>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <ImageUpload
+              field="logoUrl"
+              label="Logo"
+              currentUrl={profile.logoUrl}
+            />
+            <ImageUpload
+              field="photoUrl"
+              label="Photo"
+              currentUrl={profile.photoUrl}
+            />
+          </div>
+        </div>
       </Card>
 
       {/* --- Hero --- */}
