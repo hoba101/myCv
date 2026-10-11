@@ -3,7 +3,29 @@
     "name": "Ehab",
     "handle": "ehabo._.o",
     "email": "aryxavi02@gmail.com",
-    "role": "Creative Web Developer"
+    "role": "Creative Web Developer",
+    "logoUrl": "",
+    "photoUrl": "",
+    "configured": true
+  },
+  "hero": {
+    "eyebrow": "Creative Web Developer",
+    "headline": "I design and build web experiences people enjoy using.",
+    "typedWords": [
+      "fast",
+      "modern",
+      "accessible"
+    ],
+    "subheadline": "Thoughtful interfaces, clean code, and a dashboard so you can keep everything up to date yourself.",
+    "primaryCta": {
+      "label": "See my work",
+      "href": "#projects"
+    },
+    "secondaryCta": {
+      "label": "Hire me",
+      "href": "#contact"
+    },
+    "showPhoto": true
   },
   "services": [
     {

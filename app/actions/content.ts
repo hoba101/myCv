@@ -152,6 +152,75 @@ export async function saveSocialAction(
   return { ok: true };
 }
 
+export async function saveProfileAction(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const content = await load();
+  if (!content) return { ok: false, error: "Not authorised." };
+
+  content.profile = {
+    name: text(formData.get("name"), 60) || content.profile.name,
+    handle: text(formData.get("handle"), 60),
+    email: text(formData.get("email"), 120),
+    role: text(formData.get("role"), 80),
+    logoUrl: text(formData.get("logoUrl"), 400),
+    photoUrl: text(formData.get("photoUrl"), 400),
+    configured: content.profile.configured,
+  };
+
+  await saveContent(content);
+  refresh();
+  return { ok: true };
+}
+
+export async function saveHeroAction(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const content = await load();
+  if (!content) return { ok: false, error: "Not authorised." };
+
+  const words = text(formData.get("typedWords"), 200)
+    .split(",")
+    .map((w) => w.trim())
+    .filter(Boolean)
+    .slice(0, 6);
+
+  content.hero = {
+    eyebrow: text(formData.get("eyebrow"), 60),
+    headline: text(formData.get("headline"), 120),
+    typedWords: words.length ? words : content.hero.typedWords,
+    subheadline: text(formData.get("subheadline"), 400),
+    primaryCta: {
+      label: text(formData.get("primaryLabel"), 40),
+      href: text(formData.get("primaryHref"), 200),
+    },
+    secondaryCta: {
+      label: text(formData.get("secondaryLabel"), 40),
+      href: text(formData.get("secondaryHref"), 200),
+    },
+    showPhoto: formData.get("showPhoto") === "on",
+  };
+
+  await saveContent(content);
+  refresh();
+  return { ok: true };
+}
+
+export async function finishSetupAction(
+  ...[]: [ActionResult?, FormData?]
+): Promise<ActionResult> {
+  const content = await load();
+  if (!content) return { ok: false, error: "Not authorised." };
+
+  content.profile = { ...content.profile, configured: true };
+
+  await saveContent(content);
+  refresh();
+  return { ok: true };
+}
+
 export async function removeItemAction(
   collection: Collection,
   id: string

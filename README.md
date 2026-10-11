@@ -30,6 +30,11 @@ Next.js 16 · React 19 · Tailwind CSS v4 · TypeScript
 </table>
 </div>
 
+<div align="center">
+<img src="docs/hero-dark.png" alt="Animated hero section" width="100%">
+<em>The hero — CSS-only parallax, gradient glow and a typewriter, no animation library</em>
+</div>
+
 A single-page portfolio rendered as a Server Component, with a password-protected
 dashboard for editing projects, skills, services and social links — no database,
 no external CMS, no rebuild required.
@@ -45,7 +50,7 @@ no external CMS, no rebuild required.
 | **Server Components** | The public page ships minimal JavaScript; only the nav and reveal animations hydrate. |
 | **Accessible** | Skip link, focus-visible rings, semantic landmarks, `prefers-reduced-motion`. |
 | **Progressive enhancement** | Server HTML stays visible and indexable even with JavaScript disabled. |
-| **Two design systems** | Neo-brutalist portfolio + a full dimensional-analysis physics section. |
+| **Neo-brutalist design** | One token-driven theme with full dark mode, shared across the whole site. |
 
 ---
 
@@ -73,19 +78,45 @@ no external CMS, no rebuild required.
 
 ### Dashboard
 - **Full CRUD** — add, edit, delete and reorder projects, skills and services
+- **Image uploads** — logo, photo and project images uploaded straight from the dashboard
 - **Social link management** — GitHub, LinkedIn, X, Instagram, Facebook, Behance, Dribbble, YouTube
 - **Activate / deactivate toggle** — hide a link from the footer without deleting it
+- **Hero editor** — change the headline, subheadline, rotating words and both CTAs
+- **Profile editor** — name, handle, email, role, logo and photo
 - **Password auth** — HMAC-signed, expiring `httpOnly` cookie
 - **Zero dependencies** — filesystem storage, no database required
+
+### Setup wizard
+On first visit the dashboard runs a short guided setup instead of showing an
+empty editor: identity → logo → links → done. Anyone who clones the repo can
+have a finished portfolio in a couple of minutes, in the same neo-brutalist
+style.
+
+<div align="center">
+<table>
+<tr>
+<td width="50%"><img src="docs/wizard-step1.png" alt="Setup wizard identity step"></td>
+<td width="50%"><img src="docs/wizard-step2.png" alt="Setup wizard logo upload step"></td>
+</tr>
+<tr>
+<td align="center"><em>Step 1 — who are you?</em></td>
+<td align="center"><em>Step 2 — add a logo</em></td>
+</tr>
+</table>
+</div>
 
 ### Engineering
 - **Scroll-triggered reveals** driven by `IntersectionObserver`, gated behind
   `@media (scripting: enabled)` so content never depends on JS to be seen
+- **Animated hero with no JS libraries** — scroll-linked parallax via
+  `animation-timeline`, a ~40-line typewriter, and CSS-only ambient glow
+- **Uploads with real validation** — MIME allowlist, 5 MB cap, generated
+  filenames, and a path-traversal guard on the serving route
 - **Atomic content writes** — write to a temp file, then `rename()`, so a crash
   mid-write cannot corrupt `site.json`
 - **Always-fresh content** via `connection()`, so edits are never served stale
+- **SEO built in** — generated Open Graph image, `sitemap.xml`, `robots.txt`
 - **Optimised images** through `next/image` with explicit `remotePatterns`
-- **Full metadata** — Open Graph, Twitter cards, generated icon
 - **Error boundaries** — `error.tsx`, `loading.tsx`, `not-found.tsx`
 
 ---
@@ -94,6 +125,11 @@ no external CMS, no rebuild required.
 
 <div align="center">
 <img src="docs/dashboard-social.png" alt="Dashboard social links editor" width="100%">
+</div>
+
+<div align="center">
+<img src="docs/dashboard-profile.png" alt="Profile and hero editor with image uploads" width="100%">
+<em>Profile &amp; hero editor — change your words and upload a logo or photo</em>
 </div>
 
 Every save is written directly to **`content/site.json`** and shows up on the
@@ -126,23 +162,14 @@ file.
 
 ---
 
-## Physics section
+## Physics learning platform
 
-<div align="center">
-<img src="docs/physics.png" alt="Physics learning platform" width="100%">
-</div>
+The dimensional-analysis course that used to live at `/physics` has been split
+out into its own standalone project: **`~/physics-platform`**. This repo is now
+the portfolio and dashboard only.
 
-Alongside the portfolio, the app ships an interactive **physics learning
-platform** at `/physics` — 13 chapters of dimensional analysis with a live
-formula checker, a unit converter, worked examples that reveal one step at a
-time, and quizzes that explain every answer.
-
-The engine tracks base-dimension exponents as **exact rational vectors**, so
-`√(L/g)` resolves to `T¹` rather than drifting to `T⁰·⁹⁹⁹` through floating-point
-error.
-
-> Chapter 1 (*Units & Dimensions*) is live; the remaining chapters are scaffolded
-> and locked.
+> Chapter 1 (*Units & Dimensions*) is built; the remaining twelve chapters are
+> scaffolded and locked.
 
 ---
 
@@ -192,27 +219,52 @@ npm run lint    # ESLint
 ```
 app/
 ├── page.tsx              # assembles the page from content/site.json
-├── layout.tsx            # fonts, theme provider, skip link
+├── layout.tsx            # fonts, theme provider, skip link, metadata
+├── opengraph-image.tsx   # social share card, generated from the profile
+├── sitemap.ts / robots.ts
+├── media/[...path]/      # serves uploaded images
 ├── actions/              # Server Actions — every one re-checks auth
 │   ├── auth.ts           #   login / logout
-│   └── content.ts        #   CRUD, reorder, toggle
+│   ├── content.ts        #   CRUD, reorder, toggle, profile, hero
+│   └── upload.ts         #   image upload
 ├── components/           # hero, services, skills, projects, contact
+│   ├── HeroSection.tsx   # animated hero (CSS-first motion)
+│   ├── Typewriter.tsx    # ~40 lines, no animation library
+│   ├── Logo.tsx          # uploaded logo, or Sparkles fallback
 │   ├── InView.tsx        # scroll-reveal wrapper
 │   └── SocialIcons.tsx   # hand-rolled brand SVGs
 ├── dashboard/            # admin UI (auth-gated)
 │   ├── login/            # outside the auth gate, no redirect loop
+│   ├── setup/            # first-run wizard
 │   └── (admin)/          # route group: protected pages only
+│       └── profile/      # profile + hero editor
 ├── lib/
 │   ├── content.ts        # read/write site.json (atomic)
+│   ├── uploads.ts        # server-side upload validation + storage
+│   ├── uploads-shared.ts # client-safe constants (no node:* imports)
 │   ├── auth.ts           # session sign + verify
 │   └── icons.ts          # icon registry
-├── hooks/useInView.ts    # IntersectionObserver hook
-└── physics/              # dimensional-analysis section
+└── hooks/useInView.ts    # IntersectionObserver hook
 
 content/site.json         # all editable content
+content/uploads/          # uploaded images
 proxy.ts                  # guards /dashboard before render
 docs/                     # screenshots used in this README
 ```
+
+### Why uploads don't live in `public/`
+
+Next.js snapshots `public/` into memory **once, when the server boots**. A
+file uploaded after that point returns 404 until the server restarts, so
+runtime uploads would appear to work and then break. `content/uploads/` is
+served instead by `app/media/[...path]/route.ts`, which reads from disk on
+every request.
+
+Two config flags back this up in `next.config.ts`:
+
+- `serverActions.bodySizeLimit` — the default 1 MB rejects anything useful
+- `proxyClientMaxBodySize` — `proxy.ts` covers `/dashboard/*`, and its default
+  **silently truncates** the request body rather than erroring
 
 ### Why `proxy.ts` exists
 

@@ -46,15 +46,34 @@ export interface SocialLink {
   active: boolean;
 }
 
+export interface Cta {
+  label: string;
+  href: string;
+}
+
+export interface HeroContent {
+  eyebrow: string;
+  headline: string;
+  typedWords: string[];
+  subheadline: string;
+  primaryCta: Cta;
+  secondaryCta: Cta;
+  showPhoto: boolean;
+}
+
 export interface SiteProfile {
   name: string;
   handle: string;
   email: string;
   role: string;
+  logoUrl: string;
+  photoUrl: string;
+  configured: boolean;
 }
 
 export interface SiteContent {
   profile: SiteProfile;
+  hero: HeroContent;
   services: Service[];
   skills: Skill[];
   projects: Project[];

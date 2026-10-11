@@ -21,11 +21,11 @@ export default async function Home() {
   return (
     <>
       {/* --- Navigation --- */}
-      <Navbar handle={content.profile.handle} />
+      <Navbar handle={content.profile.handle} logoUrl={content.profile.logoUrl} />
 
       {/* --- Main Content --- */}
       <main id="main-content" className="flex-1">
-        <HeroSection />
+        <HeroSection hero={content.hero} profile={content.profile} />
         <ServicesSection items={content.services} />
         <SkillsSection items={content.skills} />
         <ProjectsSection items={content.projects} />

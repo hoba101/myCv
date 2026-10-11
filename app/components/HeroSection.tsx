@@ -2,91 +2,194 @@
  * ============================================
  * HERO SECTION COMPONENT
  * ============================================
- * Two-column hero with soft brutalist typography
- * and decorative SVG elements.
+ * Neo-brutalist structure with modern motion.
+ * All decorative movement is CSS (scroll-driven where supported),
+ * so no JavaScript is required to see the page.
  */
 
-export default function HeroSection() {
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import type { HeroContent, SiteProfile } from "../lib/types";
+import Typewriter from "./Typewriter";
+
+function Star({ className }: { className: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      stroke="var(--border-color)"
+      strokeWidth="2"
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
+export default function HeroSection({
+  hero,
+  profile,
+}: {
+  hero: HeroContent;
+  profile: SiteProfile;
+}) {
+  const showPortrait = hero.showPhoto && Boolean(profile.photoUrl);
+
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden"
+      className="relative overflow-hidden flex items-center pt-32 pb-16 md:pt-36 md:pb-24"
     >
-      {/* --- Decorative Floating Shapes --- */}
-      {/* Pink Star Top Left */}
-      <div className="absolute top-32 left-[10%] animate-float delay-100">
-        <svg width="48" height="48" viewBox="0 0 24 24" className="fill-accent-pink" stroke="var(--border-color)" strokeWidth="2">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-        </svg>
-      </div>
-      
-      {/* Blue Star Near Image */}
-      <div className="absolute top-40 right-[45%] md:right-[35%] z-20 animate-float delay-300">
-        <svg width="40" height="40" viewBox="0 0 24 24" className="fill-accent-blue -rotate-12" stroke="var(--border-color)" strokeWidth="2">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-        </svg>
-      </div>
+      {/* --- Ambient glow (pure CSS) --- */}
+      <div
+        className="pointer-events-none absolute -top-40 left-1/2 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full opacity-25 blur-[120px] hero-glow"
+        aria-hidden="true"
+      />
 
-      {/* Green Blob Bottom Left */}
-      <div className="absolute bottom-20 left-[5%] animate-float delay-500">
-        <svg width="60" height="60" viewBox="0 0 200 200" className="fill-accent-green" stroke="var(--border-color)" strokeWidth="6" xmlns="http://www.w3.org/2000/svg">
-          <path d="M44.7,-76.4C58.3,-69.2,70.1,-58.1,79.5,-45.1C88.9,-32.1,95.9,-17.2,96.5,-2.1C97.1,13,91.3,28.4,81.4,41C71.5,53.6,57.5,63.4,42.5,70.6C27.5,77.8,11.5,82.4,-4.1,83.9C-19.7,85.4,-35.1,83.8,-48.6,76.5C-62.1,69.2,-73.8,56.2,-81.9,41.2C-90,26.2,-94.5,9.2,-93.6,-7.4C-92.7,-24,-86.4,-40.2,-75.4,-52.3C-64.4,-64.4,-48.7,-72.4,-33.6,-77.8C-18.5,-83.2,-4,-86,10.6,-83.9C25.2,-81.8,31.1,-83.6,44.7,-76.4Z" transform="translate(100 100)" />
-        </svg>
-      </div>
+      {/* --- Floating decorations --- */}
+      <Star className="parallax-slow absolute top-28 left-[8%] w-10 h-10 fill-accent-pink animate-float delay-100" />
+      <Star className="parallax-fast absolute top-40 right-[12%] w-8 h-8 fill-accent-blue -rotate-12 animate-float delay-300" />
+      <Star className="parallax-slow absolute bottom-24 left-[14%] w-6 h-6 fill-accent-green rotate-12 animate-float delay-500" />
 
-      {/* --- Main Content Container --- */}
       <div className="section-container relative z-10 w-full">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-8">
-          
-          {/* --- Left Column: Typography --- */}
-          <div className="flex-1 max-w-xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-theme leading-[1.1] tracking-tight">
-              Hi , nice to meet you <br />
-              <span className="relative inline-block mt-2">
-                <span className="relative z-10">Welcome</span>
-                <span className="absolute bottom-1 left-0 w-full h-3/5 bg-accent-highlight -z-10 -rotate-1"></span>
-              </span>{" "}
-              here{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10"></span>
-                <span className="absolute bottom-1 left-0 w-full h-3/5 bg-accent-highlight -z-10 rotate-1"></span>
-              </span>
+        <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-12">
+          {/* --- Copy --- */}
+          <div className="flex-1 max-w-2xl">
+            {hero.eyebrow ? (
+              <p className="mb-5 inline-flex items-center gap-2 border-[3px] border-theme bg-accent-highlight px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-black hero-rise">
+                <span className="inline-block h-2 w-2 rounded-full bg-black animate-pulse" />
+                {hero.eyebrow}
+              </p>
+            ) : null}
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-theme leading-[1.08] tracking-tight hero-rise delay-100">
+              {hero.headline}
+              {hero.typedWords.length > 0 ? (
+                <>
+                  {" "}
+                  {/* The highlight bar is bright lime in both themes, so
+                      black text on top stays legible in light and dark. */}
+                  <span className="relative inline-block -rotate-1 bg-accent-highlight px-2 pb-0.5 text-black">
+                    <Typewriter words={hero.typedWords} />
+                  </span>
+                </>
+              ) : null}
             </h1>
-            
-            {/* Small text arrow note */}
-            <div className="mt-12 flex items-center gap-4 text-theme-muted animate-fade-in-up delay-200">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-theme -rotate-12">
+
+            {hero.subheadline ? (
+              <p className="mt-6 max-w-xl text-theme-muted text-base md:text-lg leading-relaxed hero-rise delay-200">
+                {hero.subheadline}
+              </p>
+            ) : null}
+
+            {/* --- Calls to action --- */}
+            <div className="mt-10 flex flex-wrap items-center gap-4 hero-rise delay-300">
+              {hero.primaryCta.label ? (
+                <a
+                  href={hero.primaryCta.href || "#projects"}
+                  className="brutal-btn bg-accent-highlight text-black hover:-translate-y-0.5 text-base"
+                >
+                  {hero.primaryCta.label}
+                  <ArrowRight size={17} />
+                </a>
+              ) : null}
+
+              {hero.secondaryCta.label ? (
+                <a
+                  href={hero.secondaryCta.href || "#contact"}
+                  className="brutal-btn text-base"
+                >
+                  {hero.secondaryCta.label}
+                </a>
+              ) : null}
+            </div>
+
+            {/* --- Social proof strip --- */}
+            <div className="mt-12 flex items-center gap-3 hero-rise delay-400">
+              <svg
+                viewBox="0 0 24 24"
+                className="w-9 h-9 -rotate-12 text-theme shrink-0"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
                 <path d="M10 9l-6 6 6 6" />
                 <path d="M20 4v7a4 4 0 0 1-4 4H4" />
               </svg>
-              <p className="font-semibold text-lg rotate-3" style={{ fontFamily: "cursive" }}>it&apos;s me, hi!</p>
+              <p className="text-theme font-semibold rotate-2 text-lg">
+                it&apos;s {profile.name}, hi!
+              </p>
             </div>
           </div>
 
-          {/* --- Right Column: Image Box --- */}
-          <div className="flex-1 w-full flex justify-center animate-fade-in-up delay-300">
-            <div className="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px]">
-              
-              {/* Drawn Frame Lines */}
-              <div className="absolute -top-4 -bottom-4 left-0 w-[3px]" style={{ backgroundColor: 'var(--border-color)' }}></div>
-              <div className="absolute -top-4 -bottom-4 right-0 w-[3px]" style={{ backgroundColor: 'var(--border-color)' }}></div>
-              <div className="absolute top-0 -left-4 -right-4 h-[3px]" style={{ backgroundColor: 'var(--border-color)' }}></div>
-              <div className="absolute bottom-0 -left-4 -right-4 h-[3px]" style={{ backgroundColor: 'var(--border-color)' }}></div>
+          {/* --- Portrait --- */}
+          <div className="flex-1 w-full flex justify-center hero-rise delay-200">
+            <div className="relative w-[260px] h-[260px] sm:w-[320px] sm:h-[320px]">
+              {/* Offset frame lines */}
+              <span
+                className="absolute -top-3 -bottom-3 left-0 w-[3px]"
+                style={{ backgroundColor: "var(--border-color)" }}
+                aria-hidden="true"
+              />
+              <span
+                className="absolute -top-3 -bottom-3 right-0 w-[3px]"
+                style={{ backgroundColor: "var(--border-color)" }}
+                aria-hidden="true"
+              />
+              <span
+                className="absolute top-0 -left-3 -right-3 h-[3px]"
+                style={{ backgroundColor: "var(--border-color)" }}
+                aria-hidden="true"
+              />
+              <span
+                className="absolute bottom-0 -left-3 -right-3 h-[3px]"
+                style={{ backgroundColor: "var(--border-color)" }}
+                aria-hidden="true"
+              />
 
-              {/* Main Gray Square */}
-              <div className="absolute inset-0 border-[3px] border-theme flex items-center justify-center" style={{ backgroundColor: '#A0A0A0' }}>
-                <span className="text-7xl font-bold text-black">:)</span>
+              <div className="absolute inset-0 flex items-center justify-center overflow-hidden border-[3px] border-theme bg-accent-blue">
+                {showPortrait ? (
+                  <Image
+                    src={profile.photoUrl}
+                    alt={`${profile.name}, ${profile.role}`}
+                    fill
+                    sizes="320px"
+                    priority
+                    className="object-cover"
+                  />
+                ) : (
+                  <span className="select-none text-8xl font-bold text-black">
+                    :)
+                  </span>
+                )}
               </div>
 
-              {/* Smiley Badge */}
-              <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-accent-highlight border-[3px] border-theme rounded-full flex items-center justify-center" style={{ boxShadow: '2px 2px 0px 0px var(--shadow-color)' }}>
-                <span className="text-2xl font-bold text-black">:)</span>
+              {/* Floating badge */}
+              <div
+                className="absolute -bottom-5 -right-5 flex h-16 w-16 items-center justify-center rounded-full border-[3px] border-theme bg-accent-highlight animate-float delay-300"
+                style={{ boxShadow: "2px 2px 0px 0px var(--shadow-color)" }}
+                aria-hidden="true"
+              >
+                <Spark size={20} />
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
+  );
+}
+
+function Spark({ size }: { size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className="text-black">
+      <path
+        fill="currentColor"
+        d="M12 2l2.4 6.2L21 9l-5 4.2L17 20l-5-3.6L7 20l1-6.8L3 9l6.6-.8z"
+      />
+    </svg>
   );
 }

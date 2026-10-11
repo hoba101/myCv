@@ -6,15 +6,18 @@ import {
   LayoutDashboard,
   LogOut,
   Sparkles,
+  User,
   Wrench,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { logoutAction } from "../../actions/auth";
+import Logo from "../../components/Logo";
 
 const NAV = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+  { href: "/dashboard/profile", label: "Profile & hero", icon: User },
   { href: "/dashboard/projects", label: "Projects", icon: Briefcase },
   { href: "/dashboard/skills", label: "Skills", icon: Sparkles },
   { href: "/dashboard/services", label: "Services", icon: Wrench },
@@ -24,9 +27,11 @@ const NAV = [
 export default function DashboardShell({
   children,
   handle,
+  logoUrl,
 }: {
   children: ReactNode;
   handle: string;
+  logoUrl: string;
 }) {
   const pathname = usePathname();
 
@@ -39,7 +44,9 @@ export default function DashboardShell({
             className="flex items-center gap-2 text-lg font-bold text-theme"
           >
             <Sparkles size={18} />
-            <span>{handle}</span>
+            <span className="text-sm font-bold text-theme">
+              <Logo handle={handle} logoUrl={logoUrl} size={18} />
+            </span>
             <span className="text-theme-muted text-sm font-semibold">
               / dashboard
             </span>

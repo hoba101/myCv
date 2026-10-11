@@ -4,6 +4,8 @@ import { connection } from "next/server";
 import {
   isAccentKey,
   isSocialPlatform,
+  type Cta,
+  type HeroContent,
   type Project,
   type Service,
   type SiteContent,
@@ -19,10 +21,25 @@ const DEFAULT_PROFILE: SiteProfile = {
   handle: "yourhandle",
   email: "you@example.com",
   role: "Creative Web Developer",
+  logoUrl: "",
+  photoUrl: "",
+  configured: false,
+};
+
+const DEFAULT_HERO: HeroContent = {
+  eyebrow: "Creative Web Developer",
+  headline: "I design and build web experiences people enjoy using.",
+  typedWords: ["fast", "modern", "accessible"],
+  subheadline:
+    "Thoughtful interfaces, clean code, and a dashboard so you can keep everything up to date yourself.",
+  primaryCta: { label: "See my work", href: "#projects" },
+  secondaryCta: { label: "Hire me", href: "#contact" },
+  showPhoto: true,
 };
 
 const FALLBACK: SiteContent = {
   profile: DEFAULT_PROFILE,
+  hero: DEFAULT_HERO,
   services: [],
   skills: [],
   projects: [],
@@ -93,6 +110,35 @@ function sanitizeProfile(input: unknown): SiteProfile {
     handle: asString(raw.handle, DEFAULT_PROFILE.handle),
     email: asString(raw.email, DEFAULT_PROFILE.email),
     role: asString(raw.role, DEFAULT_PROFILE.role),
+    logoUrl: asString(raw.logoUrl, DEFAULT_PROFILE.logoUrl),
+    photoUrl: asString(raw.photoUrl, DEFAULT_PROFILE.photoUrl),
+    configured: asBoolean(raw.configured, DEFAULT_PROFILE.configured),
+  };
+}
+
+function sanitizeCta(input: unknown, fallback: Cta): Cta {
+  const raw = (input ?? {}) as Record<string, unknown>;
+  return {
+    label: asString(raw.label, fallback.label),
+    href: asString(raw.href, fallback.href),
+  };
+}
+
+function sanitizeHero(input: unknown): HeroContent {
+  const raw = (input ?? {}) as Record<string, unknown>;
+  return {
+    eyebrow: asString(raw.eyebrow, DEFAULT_HERO.eyebrow),
+    headline: asString(raw.headline, DEFAULT_HERO.headline),
+    typedWords: Array.isArray(raw.typedWords)
+      ? raw.typedWords
+          .filter((w): w is string => typeof w === "string")
+          .map((w) => w.slice(0, 24))
+          .slice(0, 6)
+      : DEFAULT_HERO.typedWords,
+    subheadline: asString(raw.subheadline, DEFAULT_HERO.subheadline),
+    primaryCta: sanitizeCta(raw.primaryCta, DEFAULT_HERO.primaryCta),
+    secondaryCta: sanitizeCta(raw.secondaryCta, DEFAULT_HERO.secondaryCta),
+    showPhoto: asBoolean(raw.showPhoto, DEFAULT_HERO.showPhoto),
   };
 }
 
@@ -106,6 +152,7 @@ export function parseContent(raw: string): SiteContent {
   const data = (parsed ?? {}) as Record<string, unknown>;
   return {
     profile: sanitizeProfile(data.profile),
+    hero: sanitizeHero(data.hero),
     services: Array.isArray(data.services)
       ? data.services.map(sanitizeService)
       : [],

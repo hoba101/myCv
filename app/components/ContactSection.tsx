@@ -9,6 +9,7 @@
 import { Sparkles } from "lucide-react";
 import { SOCIAL_ICONS } from "./SocialIcons";
 import type { SiteProfile, SocialLink } from "../lib/types";
+import Logo from "./Logo";
 import InView from "./InView";
 
 interface ContactSectionProps {
@@ -37,7 +38,7 @@ export default function ContactSection({
           <div className="bg-card border-[3px] border-theme rounded-none p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4" style={{ boxShadow: '3px 3px 0px 0px var(--shadow-color)' }}>
             <a href="#hero" className="flex items-center gap-2 text-md font-bold text-theme hover:opacity-80 transition-opacity">
               <Sparkles size={16} />
-              <span>{profile.handle}</span>
+              <Logo handle={profile.handle} logoUrl={profile.logoUrl} size={16} />
             </a>
             {visible.length > 0 ? (
               <div className="flex items-center gap-4">
