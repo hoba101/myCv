@@ -222,6 +222,7 @@ export function PageHeader({
 
 export function StatusText({ result }: { result: ActionResult | null }) {
   if (!result) return null;
+
   if (result.error) {
     return (
       <p className="text-accent-pink text-sm font-semibold" role="alert">
@@ -229,7 +230,9 @@ export function StatusText({ result }: { result: ActionResult | null }) {
       </p>
     );
   }
-  return (
-    <p className="text-accent-green text-sm font-semibold">Saved.</p>
-  );
+
+  // Initial useActionState is { ok: false } — don't claim success on page load.
+  if (!result.ok) return null;
+
+  return <p className="text-accent-green text-sm font-semibold">Saved.</p>;
 }
