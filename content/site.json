@@ -154,6 +154,14 @@
       "imageUrl": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=600&h=400",
       "accent": "highlight",
       "href": ""
+    },
+    {
+      "id": "proj-dental-platform",
+      "title": "Dental booking marketplace with a bilingual doctor and student provider system",
+      "category": "Full-stack | Healthcare",
+      "imageUrl": "https://images.unsplash.com/photo-1758205308179-4e00e0e4060b?auto=format&fit=crop&q=80&w=600&h=400",
+      "accent": "blue",
+      "href": "https://github.com/hoba101/dantes-management"
     }
   ],
   "socials": [
