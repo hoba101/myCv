@@ -1,0 +1,189 @@
+{
+  "services": [
+    {
+      "id": "svc-user-research",
+      "title": "user research",
+      "description": "User research is the foundation of every successful design. I dive deep into understanding your target audience to uncover pain points, desires, and behaviors. This insight allows me to create user-centered solutions.",
+      "icon": "star",
+      "accent": "blue"
+    },
+    {
+      "id": "svc-wireframing",
+      "title": "wireframing",
+      "description": "Wireframing is where I map out the structure and layout of your website or app. These low-fidelity blueprints focus on functionality, user flow, and information hierarchy, providing a clear visual framework.",
+      "icon": "hash",
+      "accent": "pink"
+    },
+    {
+      "id": "svc-prototyping",
+      "title": "prototyping",
+      "description": "Prototyping brings ideas to life by creating interactive and functional models of your product. I build prototypes that allow stakeholders to experience and test the flow of the interface.",
+      "icon": "heart",
+      "accent": "highlight"
+    },
+    {
+      "id": "svc-ui-designing",
+      "title": "ui designing",
+      "description": "UI design is where creativity meets functionality. I craft visually appealing and intuitive interfaces that elevate the user experience. By focusing on color schemes, typography, and interactive elements.",
+      "icon": "asterisk",
+      "accent": "green"
+    }
+  ],
+  "skills": [
+    {
+      "id": "skill-react",
+      "name": "React",
+      "icon": "code",
+      "accent": "blue",
+      "rotation": -3
+    },
+    {
+      "id": "skill-nextjs",
+      "name": "Next.js",
+      "icon": "zap",
+      "accent": "pink",
+      "rotation": 2
+    },
+    {
+      "id": "skill-typescript",
+      "name": "TypeScript",
+      "icon": "terminal",
+      "accent": "highlight",
+      "rotation": -2
+    },
+    {
+      "id": "skill-tailwind",
+      "name": "Tailwind CSS",
+      "icon": "layout",
+      "accent": "green",
+      "rotation": 4
+    },
+    {
+      "id": "skill-figma",
+      "name": "Figma",
+      "icon": "paintbrush",
+      "accent": "pink",
+      "rotation": -4
+    },
+    {
+      "id": "skill-nodejs",
+      "name": "Node.js",
+      "icon": "database",
+      "accent": "highlight",
+      "rotation": 1
+    },
+    {
+      "id": "skill-uiux",
+      "name": "UI/UX",
+      "icon": "sparkles",
+      "accent": "blue",
+      "rotation": -3
+    },
+    {
+      "id": "skill-cfc48306",
+      "name": "photoshopt",
+      "icon": "pen",
+      "accent": "pink",
+      "rotation": 5
+    },
+    {
+      "id": "skill-1a9cb3be",
+      "name": "illustrator",
+      "icon": "paintbrush",
+      "accent": "highlight",
+      "rotation": 0
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-bloom",
+      "title": "Flowers, trees and bushes reach their peak of full bloom",
+      "category": "Photography | Nature",
+      "imageUrl": "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=600&h=400",
+      "accent": "pink",
+      "href": ""
+    },
+    {
+      "id": "proj-workspace",
+      "title": "Minimalist workspace design and aesthetics",
+      "category": "Interior | Design",
+      "imageUrl": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600&h=400",
+      "accent": "green",
+      "href": ""
+    },
+    {
+      "id": "proj-architecture",
+      "title": "Modern architectural structures in the city",
+      "category": "Architecture | Urban",
+      "imageUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=600&h=400",
+      "accent": "blue",
+      "href": ""
+    },
+    {
+      "id": "proj-abstract",
+      "title": "Creative abstract digital art generation",
+      "category": "Art | Digital",
+      "imageUrl": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=600&h=400",
+      "accent": "highlight",
+      "href": ""
+    }
+  ],
+  "socials": [
+    {
+      "id": "soc-dribbble",
+      "platform": "dribbble",
+      "label": "Dribbble",
+      "href": "https://dribbble.com/ehab",
+      "active": false
+    },
+    {
+      "id": "soc-github",
+      "platform": "github",
+      "label": "GitHub",
+      "href": "https://github.com/hoba101",
+      "active": true
+    },
+    {
+      "id": "soc-linkedin",
+      "platform": "linkedin",
+      "label": "LinkedIn",
+      "href": "https://linkedin.com/in/ehab",
+      "active": false
+    },
+    {
+      "id": "soc-x",
+      "platform": "x",
+      "label": "X",
+      "href": "https://x.com/ehab",
+      "active": false
+    },
+    {
+      "id": "soc-instagram",
+      "platform": "instagram",
+      "label": "Instagram",
+      "href": "https://instagram.com/ehab",
+      "active": false
+    },
+    {
+      "id": "soc-facebook",
+      "platform": "facebook",
+      "label": "Facebook",
+      "href": "https://facebook.com/ehab",
+      "active": false
+    },
+    {
+      "id": "soc-behance",
+      "platform": "behance",
+      "label": "Behance",
+      "href": "https://behance.net/ehab",
+      "active": false
+    },
+    {
+      "id": "soc-49000efa",
+      "platform": "instagram",
+      "label": "instagram",
+      "href": "https://www.instagram.com/mlro._.o/",
+      "active": true
+    }
+  ]
+}
