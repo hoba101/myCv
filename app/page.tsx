@@ -21,7 +21,7 @@ export default async function Home() {
   return (
     <>
       {/* --- Navigation --- */}
-      <Navbar />
+      <Navbar handle={content.profile.handle} />
 
       {/* --- Main Content --- */}
       <main id="main-content" className="flex-1">
@@ -29,7 +29,7 @@ export default async function Home() {
         <ServicesSection items={content.services} />
         <SkillsSection items={content.skills} />
         <ProjectsSection items={content.projects} />
-        <ContactSection links={content.socials} />
+        <ContactSection links={content.socials} profile={content.profile} />
       </main>
     </>
   );

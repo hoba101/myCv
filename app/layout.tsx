@@ -2,34 +2,39 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { getContent } from "./lib/content";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
 });
 
-export const metadata: Metadata = {
-  title: "Ehab — Creative Web Developer",
-  description:
-    "Portfolio of Ehab, a creative web developer specializing in React, Next.js, and modern web experiences.",
-  openGraph: {
-    title: "Ehab — Creative Web Developer",
-    description:
-      "Portfolio of Ehab, a creative web developer specializing in React, Next.js, and modern web experiences.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Ehab — Creative Web Developer",
-    description:
-      "Portfolio of Ehab, a creative web developer specializing in React, Next.js, and modern web experiences.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true },
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { profile } = await getContent();
+  const title = `${profile.name} — ${profile.role}`;
+  const description = `Portfolio of ${profile.name}, a ${profile.role.toLowerCase()} specializing in React, Next.js, and modern web experiences.`;
+
+  return {
+    metadataBase: new URL("https://github.com/hoba101/myCv"),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true },
+    },
+  };
+}
 
 export default function RootLayout({
   children,

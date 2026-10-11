@@ -46,7 +46,15 @@ export interface SocialLink {
   active: boolean;
 }
 
+export interface SiteProfile {
+  name: string;
+  handle: string;
+  email: string;
+  role: string;
+}
+
 export interface SiteContent {
+  profile: SiteProfile;
   services: Service[];
   skills: Skill[];
   projects: Project[];

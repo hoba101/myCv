@@ -21,7 +21,7 @@ const NAV_LINKS = [
 
 const emptySubscribe = () => () => {};
 
-export default function Navbar() {
+export default function Navbar({ handle }: { handle: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const mounted = useSyncExternalStore(
@@ -40,7 +40,7 @@ export default function Navbar() {
             className="flex items-center gap-2 text-lg font-bold text-theme hover:opacity-80 transition-opacity"
           >
             <Sparkles size={18} />
-            <span>ehabo._.o</span>
+            <span>{handle}</span>
           </a>
 
           {/* --- Desktop Links --- */}

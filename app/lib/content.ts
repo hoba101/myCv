@@ -7,13 +7,22 @@ import {
   type Project,
   type Service,
   type SiteContent,
+  type SiteProfile,
   type Skill,
   type SocialLink,
 } from "./types";
 
 const CONTENT_PATH = path.join(process.cwd(), "content", "site.json");
 
+const DEFAULT_PROFILE: SiteProfile = {
+  name: "Your Name",
+  handle: "yourhandle",
+  email: "you@example.com",
+  role: "Creative Web Developer",
+};
+
 const FALLBACK: SiteContent = {
+  profile: DEFAULT_PROFILE,
   services: [],
   skills: [],
   projects: [],
@@ -77,6 +86,16 @@ function sanitizeSocial(input: unknown, index: number): SocialLink {
   };
 }
 
+function sanitizeProfile(input: unknown): SiteProfile {
+  const raw = (input ?? {}) as Record<string, unknown>;
+  return {
+    name: asString(raw.name, DEFAULT_PROFILE.name),
+    handle: asString(raw.handle, DEFAULT_PROFILE.handle),
+    email: asString(raw.email, DEFAULT_PROFILE.email),
+    role: asString(raw.role, DEFAULT_PROFILE.role),
+  };
+}
+
 export function parseContent(raw: string): SiteContent {
   let parsed: unknown;
   try {
@@ -86,6 +105,7 @@ export function parseContent(raw: string): SiteContent {
   }
   const data = (parsed ?? {}) as Record<string, unknown>;
   return {
+    profile: sanitizeProfile(data.profile),
     services: Array.isArray(data.services)
       ? data.services.map(sanitizeService)
       : [],

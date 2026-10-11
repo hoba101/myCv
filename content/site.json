@@ -1,4 +1,10 @@
 {
+  "profile": {
+    "name": "Ehab",
+    "handle": "ehabo._.o",
+    "email": "aryxavi02@gmail.com",
+    "role": "Creative Web Developer"
+  },
   "services": [
     {
       "id": "svc-user-research",
@@ -130,13 +136,6 @@
   ],
   "socials": [
     {
-      "id": "soc-dribbble",
-      "platform": "dribbble",
-      "label": "Dribbble",
-      "href": "https://dribbble.com/ehab",
-      "active": false
-    },
-    {
       "id": "soc-github",
       "platform": "github",
       "label": "GitHub",
@@ -144,44 +143,9 @@
       "active": true
     },
     {
-      "id": "soc-linkedin",
-      "platform": "linkedin",
-      "label": "LinkedIn",
-      "href": "https://linkedin.com/in/ehab",
-      "active": false
-    },
-    {
-      "id": "soc-x",
-      "platform": "x",
-      "label": "X",
-      "href": "https://x.com/ehab",
-      "active": false
-    },
-    {
       "id": "soc-instagram",
       "platform": "instagram",
       "label": "Instagram",
-      "href": "https://instagram.com/ehab",
-      "active": false
-    },
-    {
-      "id": "soc-facebook",
-      "platform": "facebook",
-      "label": "Facebook",
-      "href": "https://facebook.com/ehab",
-      "active": false
-    },
-    {
-      "id": "soc-behance",
-      "platform": "behance",
-      "label": "Behance",
-      "href": "https://behance.net/ehab",
-      "active": false
-    },
-    {
-      "id": "soc-49000efa",
-      "platform": "instagram",
-      "label": "instagram",
       "href": "https://www.instagram.com/mlro._.o/",
       "active": true
     }

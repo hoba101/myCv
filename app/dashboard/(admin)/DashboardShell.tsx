@@ -21,7 +21,13 @@ const NAV = [
   { href: "/dashboard/social", label: "Social links", icon: ExternalLink },
 ];
 
-export default function DashboardShell({ children }: { children: ReactNode }) {
+export default function DashboardShell({
+  children,
+  handle,
+}: {
+  children: ReactNode;
+  handle: string;
+}) {
   const pathname = usePathname();
 
   return (
@@ -33,7 +39,7 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
             className="flex items-center gap-2 text-lg font-bold text-theme"
           >
             <Sparkles size={18} />
-            <span>ehabo._.o</span>
+            <span>{handle}</span>
             <span className="text-theme-muted text-sm font-semibold">
               / dashboard
             </span>
