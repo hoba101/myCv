@@ -2,14 +2,15 @@
  * ============================================
  * HERO SECTION COMPONENT
  * ============================================
- * Neo-brutalist structure with modern motion.
- * All decorative movement is CSS (scroll-driven where supported),
- * so no JavaScript is required to see the page.
+ * Neo-brutalist structure, modern depth and motion.
+ * The backdrop picks its own quality tier on the device, so the page
+ * never depends on JavaScript to be readable.
  */
 
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import type { HeroContent, SiteProfile } from "../lib/types";
+import HeroBackdrop from "./hero/HeroBackdrop";
 import Typewriter from "./Typewriter";
 
 function Star({ className }: { className: string }) {
@@ -26,6 +27,17 @@ function Star({ className }: { className: string }) {
   );
 }
 
+function Spark({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className="text-black">
+      <path
+        fill="currentColor"
+        d="M12 2l2.4 6.2L21 9l-5 4.2L17 20l-5-3.6L7 20l1-6.8L3 9l6.6-.8z"
+      />
+    </svg>
+  );
+}
+
 export default function HeroSection({
   hero,
   profile,
@@ -38,31 +50,25 @@ export default function HeroSection({
   return (
     <section
       id="hero"
-      className="relative overflow-hidden flex items-center pt-32 pb-16 md:pt-36 md:pb-24"
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden pt-28 pb-16 md:pt-32 md:pb-24"
     >
-      {/* --- Ambient glow (pure CSS) --- */}
-      <div
-        className="pointer-events-none absolute -top-40 left-1/2 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full opacity-25 blur-[120px] hero-glow"
-        aria-hidden="true"
-      />
-
-      {/* --- Floating decorations --- */}
-      <Star className="parallax-slow absolute top-28 left-[8%] w-10 h-10 fill-accent-pink animate-float delay-100" />
-      <Star className="parallax-fast absolute top-40 right-[12%] w-8 h-8 fill-accent-blue -rotate-12 animate-float delay-300" />
-      <Star className="parallax-slow absolute bottom-24 left-[14%] w-6 h-6 fill-accent-green rotate-12 animate-float delay-500" />
+      <HeroBackdrop />
 
       <div className="section-container relative z-10 w-full">
-        <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-12">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           {/* --- Copy --- */}
-          <div className="flex-1 max-w-2xl">
+          <div className="max-w-2xl">
             {hero.eyebrow ? (
-              <p className="mb-5 inline-flex items-center gap-2 border-[3px] border-theme bg-accent-highlight px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-black hero-rise">
-                <span className="inline-block h-2 w-2 rounded-full bg-black animate-pulse" />
-                {hero.eyebrow}
+              <p className="hero-rise inline-flex items-center gap-2 border-[3px] border-theme bg-accent-highlight px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-black">
+                <span className="relative inline-flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-black opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-black" />
+                </span>
+                Available for work
               </p>
             ) : null}
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-theme leading-[1.08] tracking-tight hero-rise delay-100">
+            <h1 className="hero-rise delay-100 mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-theme sm:text-5xl lg:text-6xl xl:text-7xl">
               {hero.headline}
               {hero.typedWords.length > 0 ? (
                 <>
@@ -77,119 +83,106 @@ export default function HeroSection({
             </h1>
 
             {hero.subheadline ? (
-              <p className="mt-6 max-w-xl text-theme-muted text-base md:text-lg leading-relaxed hero-rise delay-200">
+              <p className="hero-rise delay-200 mt-6 max-w-xl text-base leading-relaxed text-theme-muted md:text-lg">
                 {hero.subheadline}
               </p>
             ) : null}
 
-            {/* --- Calls to action --- */}
-            <div className="mt-10 flex flex-wrap items-center gap-4 hero-rise delay-300">
+            <div className="hero-rise delay-300 mt-9 flex flex-wrap items-center gap-4">
               {hero.primaryCta.label ? (
                 <a
                   href={hero.primaryCta.href || "#projects"}
-                  className="brutal-btn bg-accent-highlight text-black hover:-translate-y-0.5 text-base"
+                  className="brutal-btn group bg-accent-highlight px-6 py-3 text-base text-black hover:-translate-y-0.5"
                 >
                   {hero.primaryCta.label}
-                  <ArrowRight size={17} />
+                  <ArrowRight
+                    size={18}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
                 </a>
               ) : null}
 
               {hero.secondaryCta.label ? (
                 <a
                   href={hero.secondaryCta.href || "#contact"}
-                  className="brutal-btn text-base"
+                  className="brutal-btn px-6 py-3 text-base"
                 >
                   {hero.secondaryCta.label}
                 </a>
               ) : null}
             </div>
 
-            {/* --- Social proof strip --- */}
-            <div className="mt-12 flex items-center gap-3 hero-rise delay-400">
-              <svg
-                viewBox="0 0 24 24"
-                className="w-9 h-9 -rotate-12 text-theme shrink-0"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M10 9l-6 6 6 6" />
-                <path d="M20 4v7a4 4 0 0 1-4 4H4" />
-              </svg>
-              <p className="text-theme font-semibold rotate-2 text-lg">
-                it&apos;s {profile.name}, hi!
-              </p>
+            {/* --- Meta strip --- */}
+            <div className="hero-rise delay-400 mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <span className="flex items-center gap-2 text-sm text-theme-muted">
+                <MapPin size={15} className="text-accent-highlight" />
+                {profile.role}
+              </span>
+              <span className="flex items-center gap-2 text-sm text-theme-muted">
+                <Spark size={14} />
+                <span className="italic">it&apos;s {profile.name}, hi!</span>
+              </span>
             </div>
           </div>
 
           {/* --- Portrait --- */}
-          <div className="flex-1 w-full flex justify-center hero-rise delay-200">
-            <div className="relative w-[260px] h-[260px] sm:w-[320px] sm:h-[320px]">
-              {/* Offset frame lines */}
+          <div className="hero-rise delay-200 flex justify-center lg:justify-end">
+            <div className="hero-portrait group relative h-[280px] w-[280px] sm:h-[360px] sm:w-[360px]">
               <span
-                className="absolute -top-3 -bottom-3 left-0 w-[3px]"
-                style={{ backgroundColor: "var(--border-color)" }}
+                className="absolute -left-3 -right-3 -top-3 -bottom-3 border-[3px] border-transparent transition-transform duration-500 group-hover:rotate-3"
+                style={{ borderColor: "var(--border-color)" }}
                 aria-hidden="true"
               />
               <span
-                className="absolute -top-3 -bottom-3 right-0 w-[3px]"
-                style={{ backgroundColor: "var(--border-color)" }}
+                className="absolute -inset-3 -z-10 transition-transform duration-500 group-hover:-rotate-2"
                 aria-hidden="true"
-              />
-              <span
-                className="absolute top-0 -left-3 -right-3 h-[3px]"
-                style={{ backgroundColor: "var(--border-color)" }}
-                aria-hidden="true"
-              />
-              <span
-                className="absolute bottom-0 -left-3 -right-3 h-[3px]"
-                style={{ backgroundColor: "var(--border-color)" }}
-                aria-hidden="true"
-              />
+              >
+                <span className="absolute inset-0 bg-accent-pink" />
+              </span>
 
-              <div className="absolute inset-0 flex items-center justify-center overflow-hidden border-[3px] border-theme bg-accent-blue">
+              <div className="absolute inset-0 overflow-hidden border-[3px] border-theme bg-accent-blue">
                 {showPortrait ? (
                   <Image
                     src={profile.photoUrl}
                     alt={`${profile.name}, ${profile.role}`}
                     fill
-                    sizes="320px"
+                    sizes="360px"
                     priority
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 ) : (
                   <span className="select-none text-8xl font-bold text-black">
                     :)
                   </span>
                 )}
+
+                {/* scanline sheen */}
+                <span
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, transparent 0%, color-mix(in oklab, var(--accent-highlight) 28%, transparent) 50%, transparent 100%)",
+                  }}
+                  aria-hidden="true"
+                />
               </div>
 
-              {/* Floating badge */}
               <div
-                className="absolute -bottom-5 -right-5 flex h-16 w-16 items-center justify-center rounded-full border-[3px] border-theme bg-accent-highlight animate-float delay-300"
+                className="absolute -bottom-5 -right-5 flex h-16 w-16 animate-float items-center justify-center rounded-full border-[3px] border-theme bg-accent-highlight delay-300"
                 style={{ boxShadow: "2px 2px 0px 0px var(--shadow-color)" }}
                 aria-hidden="true"
               >
-                <Spark size={20} />
+                <Spark size={22} />
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
-}
 
-function Spark({ size }: { size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" className="text-black">
-      <path
-        fill="currentColor"
-        d="M12 2l2.4 6.2L21 9l-5 4.2L17 20l-5-3.6L7 20l1-6.8L3 9l6.6-.8z"
-      />
-    </svg>
+      {/* --- Floating decorations --- */}
+      <Star className="parallax-slow absolute left-[6%] top-[22%] h-9 w-9 animate-float fill-accent-pink delay-100" />
+      <Star className="parallax-fast absolute right-[8%] top-[16%] h-7 w-7 animate-float fill-accent-blue delay-300" />
+      <Star className="parallax-slow absolute bottom-[18%] left-[12%] h-5 w-5 animate-float fill-accent-green delay-500" />
+    </section>
   );
 }
